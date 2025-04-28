@@ -1,0 +1,203 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.SplittableRandom;
+
+public class Student {
+    String id;
+    String name;
+    int age;
+    String address;
+    public Student() {
+    }
+    public Student(String id, String name, int age, String address) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.address = address;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String mnue(ArrayList<Student> list,Student s){
+        System.out.println("-------------------------------------------欢迎来到学生管理系统----------------------------------------------");
+        System.out.println("1：添加学生");
+        System.out.println("2：删除学生");
+        System.out.println("3：修改学生");
+        System.out.println("4：查询学生");
+        System.out.println("5：退出");
+        System.out.println("请输入您的选择:");
+        Scanner sc = new Scanner(System.in);
+        String a = sc.next();
+        switch (a){
+            case "1":
+                addstudent(list,s);
+                break;
+            case "2":
+                deletestudent(list,s);
+                break;
+            case "3":
+                changestudent(list,s);
+                break;
+            case "4":
+                findstudent(list,s);
+                break;
+            case "5":
+                System.out.println("已退出");
+                return "";
+        }
+        return "";
+    }
+    public String findstudent(ArrayList<Student> list,Student s){
+        if(list.size()==0){
+            System.out.println("当前无学生信息，请添加后在查询！");
+            mnue(list,s);
+            return "";
+        }else{
+            System.out.println("id"+"\t"+"姓名"+"\t"+"年龄"+"\t"+"家庭住址"+"\t");
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println(list.get(i).getId()+"\t"+list.get(i).getName()+"\t"+list.get(i).getAge()+"\t"+list.get(i).getAddress()+"\t");
+            }
+            System.out.println("打印完成");
+            mnue(list,s);
+        }
+        return "";
+    }
+
+
+    public String changestudent(ArrayList<Student> list,Student s){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入要修改的学生id:");
+        String id1 = sc.next();
+        for (int i = 0; i < list.size(); i++) {
+            int k=0;
+            for (int j = 0; j < list.get(i).id.length(); j++) {
+                if(list.get(i).id.charAt(j)==id1.charAt(j)){
+                    k++;
+                }
+            }
+            if (k==id1.length()){
+                System.out.println("查询成功");
+                System.out.println("请输入要修改的id：");
+                String id2 = sc.next();
+                System.out.println("请输入要修改的姓名：");
+                String name2 = sc.next();
+                System.out.println("请输入要修改的年龄：");
+                int age2 = sc.nextInt();
+                System.out.println("请输入要修改的家庭住址：");
+                String address2 = sc.next();
+                for (int l = 0; l < list.size(); l++) {
+                    if(i==l){
+                        continue;
+                    }else{
+                        int m=0;
+                        for (int j = 0; j < list.get(i).id.length(); j++) {
+                            if(list.get(l).id.charAt(j)==id1.charAt(j)){
+                                m++;
+                            }
+                        }
+                        if (m==(id1.length())){
+                            System.out.println("id重复，修改失败");
+                            mnue(list,s);
+                            return"";
+                        }
+                    }
+
+                }
+                Student s1 = new Student(id2,name2,age2,address2);
+                list.set(i,s1);
+                System.out.println("修改成功");
+                mnue(list,s);
+                return "";
+            }
+        }
+        System.out.println("此人不存在");
+        mnue(list,s);
+        return "";
+    }
+
+
+    public String deletestudent(ArrayList<Student> list,Student s) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入要删除的学生id:");
+        String id1 = sc.next();
+        for (int i = 0; i < list.size(); i++) {
+            int k=0;
+            for (int j = 0; j < list.get(i).id.length(); j++) {
+                if(list.get(i).id.charAt(j)==id1.charAt(j)){
+                    k++;
+                }
+            }
+            if (k==id1.length()){
+                System.out.println("查询成功");
+                list.remove(i);
+                System.out.println("删除成功");
+                mnue(list,s);
+                return "";
+            }
+        }
+        System.out.println("此人不存在");
+        mnue(list,s);
+        return "";
+    }
+
+    public String addstudent(ArrayList<Student> list,Student s){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入学生id:");
+        String id1 = sc.next();
+        System.out.println("请输入学生姓名:");
+        String name1 = sc.next();
+        System.out.println("请输入学生年龄:");
+        int age1 = sc.nextInt();
+        System.out.println("请输入学生家庭住址:");
+        String address1 = sc.next();
+        Student s1 = new Student();
+        s1.setId(id1);
+        s1.setName(name1);
+        s1.setAge(age1);
+        s1.setAddress(address1);
+        for (int i = 0; i < list.size(); i++) {
+            int k=0;
+            for (int j = 0; j < list.get(i).id.length(); j++) {
+                if(list.get(i).id.charAt(j)==id1.charAt(j)){
+                    k++;
+                }
+            }
+            if (k==id1.length()){
+                System.out.println("id重复，添加失败");
+                mnue(list,s);
+                return"";
+            }
+        }
+        list.add(s1);
+        System.out.println("添加成功");
+        mnue(list,s);
+        return "";
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Student> list = new ArrayList<>();
+        Student s = new Student();
+        s.mnue(list,s);
+    }
+}
